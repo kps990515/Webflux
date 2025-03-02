@@ -54,4 +54,7 @@ public static void handleConsumer(Consumer<Integer> consumer) {
 
 ### 함수호출관점에서의 동기, 비동기
 - A모델
-![img]()
+![img](https://github.com/kps990515/Webflux/blob/main/resources/modelA.png)
+
+- B모델
+![img](https://github.com/kps990515/Webflux/blob/main/resources/modelB.png)
