@@ -286,4 +286,74 @@ public interface CompletionStage<T> {
     - future 파이프에서 발생한 에러를 처리할때 유용
     - ![img](https://github.com/kps990515/Webflux/blob/main/resources/exceptionally.png)
 
+### CompletableFuture
+- 기본적으로 모두다 별개의 쓰레드로 실행
+```java
+public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
+   public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier) { … }
+   public static CompletableFuture<Void> runAsync(Runnable runnable) { … }
+  
+   public boolean complete(T value) { … }
+   public boolean isCompletedExceptionally() { … }
+  
+   public static CompletableFuture<Void> allOf(CompletableFuture<?> . cfs) { … }
+   public static CompletableFuture<Object> anyOf(CompletableFuture<?> . cfs) { … }
+}
+```
+- supplyAsync
+  - Supplier를 제공하여 CompletableFuture를 생성 가능
+  - Supplier의 반환값이 CompletableFuture의 결과로
+- runAsync
+  - Runnable를 제공하여 CompletableFuture를 생성할 수 있다
+  - 값을 반환하지 않는다
+  - 다음 task에 null이 전달된다
+![img](https://github.com/kps990515/Webflux/blob/main/resources/supplyrunAsync.png)
+- complete
+  - CompletableFuture가 완료되지 않았다면 주어진 값으로 채운다
+  - complete에 의해서 상태가 바뀌었다면 true, 아니라면 false를 반환한다
+  ```java
+  CompletableFuture<Integer> future = new CompletableFuture >();
+  assert !future.isDone();
+  
+  var triggered = future.complete(1);
+  assert future.isDone();
+  assert triggered;
+  assert future.get() = 1;
+  
+  triggered = future.complete(2);
+  assert future.isDone();
+  assert !triggered;
+  assert future.get() = 1;
+  ```
+![img](https://github.com/kps990515/Webflux/blob/main/resources/CompletableFutureStatus.png)
+- isCompletedExceptionally 
+  - Exception에 의해서 complete 되었는지 확인 할 수 있다
+  ```java
+  var futureWithException = CompletableFuture.supplyAsync(() > {
+    return 1 / 0;
+  });
+  Thread.sleep(100);
+  assert futureWithException.isDone();
+  assert futureWithException.isCompletedExceptionally();
+  ```
+- allOf
+  - 여러 completableFuture를 모아서 하나의 completableFuture로 변환할 수 있다
+  - 모든 completableFuture가 완료되면 상태가 done으로 변경
+  - Void를 반환하므로 각각의 값에 get으로 접근해야 한다
+  - 병렬적으로 실행되기에 가장 늦는것과 시간이 비슷
+  ![img](https://github.com/kps990515/Webflux/blob/main/resources/allof.png)
+- anyOf
+  - 여러 completableFuture를 모아서 하나의 completableFuture로 변환할 수 있다
+  - 주어진 future 중 하나라도 완료되면 상태가 done으로 변경
+  - 제일 먼저 done 상태가 되는 future의 값을 반환
+  ![img](https://github.com/kps990515/Webflux/blob/main/resources/anyof.png)
+      
+  
+#### CompletableFuture의 한계
+  - 지연 로딩 기능을 제공하지 않는다
+    - CompletableFuture를 반환하는 함수를 호출시 즉시 작업이 실행된다
+  - 지속적으로 생성되는 데이터를 처리하기 어렵다
+    - CompletableFuture에서 데이터를 반환하고 나면 다시 다른 값을 전달하기 어렵다
+
+
 
