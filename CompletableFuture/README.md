@@ -42,6 +42,11 @@ public static class Person {
   - 해당 작업이 완료되면 결과를 처리하거나
   - 다른 CompletionStage를 연결 하는 인터페이스
 
+
+- Future: 단순한 비동기 작업 결과 표현. 블로킹 호출을 사용하며, 체이닝이나 콜백 지원이 없음.
+- CompletionStage: 비동기 작업을 논블로킹 방식으로 체이닝할 수 있는 인터페이스.
+- CompletableFuture: 두 인터페이스의 장점을 모두 갖춘 구현체로, 비동기 작업 결과의 조회 및 복합 작업 구성에 모두 활용 가능.
+
 ### Future 인터페이스
 - ExecutorService
   - 쓰레드 풀을 이용하여 비동기적으로 작업을 실행하고 관리
