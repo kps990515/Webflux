@@ -211,11 +211,14 @@ public interface CompletionStage<T> {
 - ForkJoinPool - fork & join
   - Task를 fork를 통해서 subtask로 나누고
   - Thread pool에서 steal work 알고리즘을 이용해서 균등하게 처리
+    - steal work 알고리즘
+      - 병렬 처리 환경에서 각 스레드가 자신의 작업 큐를 가지며, 작업이 부족할 때 다른 스레드의 큐에서 작업을 훔쳐와 수행하는 방식
+      - 작업 부하를 자동으로 균등하게 분배
   - join을 통해서 결과를 생성
   
 
 - CompletionStage 연산자
-  - 함수형 인터페이스: Function, Consumer, Supplier, Runnable
+  - 함수형 인터페이스: Function(입력->결과), Consumer(결과X), Supplier(입력X), Runnable(실행)
     - thenAccept(Consumer action): Consumer - accept 메소드
       - thenAcceptAsync 지원
       - Consumer를 파라미터로 받는다
