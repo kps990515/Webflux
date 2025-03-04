@@ -38,4 +38,4 @@
   - 임시 저장 공간인 buffer를 사용
   - 한 번 read를 호출할 때 buffer 사이즈만큼 미리 조회
   - 그 이후 read를 호출할 때 미리 저장한 buffer 데이터 반환
-  - ![img.png](img.png)
+  - ![img](img.png)
