@@ -73,7 +73,7 @@ public class MonoSimpleExample {
   - 무한하거나 유한한 여러 개의 값
 ![img](https://github.com/kps990515/Webflux/blob/main/resources/fluxToMono1.png)
 ![img](https://github.com/kps990515/Webflux/blob/main/resources/fluxToMono2.png)
-![img](https://github.com/kps990515/Webflux/blob/main/resources/MonoToFlux1.png)
-![img](https://github.com/kps990515/Webflux/blob/main/resources/MonoToFlux2.png)
+![img](https://github.com/kps990515/Webflux/blob/main/resources/monoToFlux1.png)
+![img](https://github.com/kps990515/Webflux/blob/main/resources/monoToFlux2.png)
 
 ### RXJava
