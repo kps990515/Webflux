@@ -77,3 +77,59 @@ public class MonoSimpleExample {
 ![img](https://github.com/kps990515/Webflux/blob/main/resources/monoToFlux2.png)
 
 ### RXJava
+- Flowable, Observable, Single, Maybe, Completable, publisher 제공
+- Flowable
+  - 0..n개의 item을 전달
+  - 에러가 발생하면 error signal 전달하고 종료
+  - 모든 item을 전달했다면 complete signal 전달하고 종료
+  - backPressure 지원
+  - Reactor의 Flux와 유사
+- Observable
+  - 0..n개의 item을 전달
+  - 에러가 발생하면 error signal 전달하고 종료
+  - 모든 item을 전달했다면 complete signal 전달하고 종료
+  - backPressure 지원 X
+  
+| 항목                           | Flowable                                         | Observable                                         |
+|--------------------------------|--------------------------------------------------|----------------------------------------------------|
+| **기반**                      | Pull 기반                                        | Push 기반                                          |
+| **데이터 전달 방식**           | Subscriber가 request()로 요청한 만큼 아이템 전달      | Subscriber가 처리할 수 없더라도 아이템 전달             |
+| **Reactive manifesto 준수**    | 메시지 드리븐을 모두 준수                         | 메시지 드리븐을 일부만 준수                         |
+| **onSubscribe 전달 객체**      | Subscription 전달                                | Disposable 전달                                    |
+
+- Single
+  - 1개의 item을 전달 후 바로 onComplete signal 전달
+  - 1개의 item이 없다면 onError signal 전달
+  - 에러가 발생했다면 onError signal 전달
+- Maybe
+  - 1개의 item을 전달 후 바로 onComplete signal 전달
+  - 1개의 item이 없어도 onComplete signal 전달 가능
+  - 에러가 발생했다면 onError signal 전달
+  - Reactor의 Mono와 유사
+- Completable
+  - onComplete 혹은 onError signal만 전달
+  - 값이 아닌 사건을 전달
+
+| 타입         | 취소 지원 및 특징                | 발행 아이템 개수 | onSubscribe           | onNext                                   | onComplete                              | onError               |
+|--------------|------------------------------|---------------|-----------------------|------------------------------------------|-----------------------------------------|-----------------------|
+| **Flowable**     | BackPressure, cancelation 지원   | 0..n         | 언제든지 호출 가능        | 언제든지 호출 가능                         | 언제든지 호출 가능                        | 언제든지 호출 가능       |
+| **Observable**   | cancelation 지원                | 0..n         | 언제든지 호출 가능        | 언제든지 호출 가능                         | 언제든지 호출 가능                        | 언제든지 호출 가능       |
+| **Single**       | cancelation 지원                | 1            | 언제든지 호출 가능        | 1회 호출                                  | onNext 호출 후 바로 호출                   | 언제든지 호출 가능       |
+| **Maybe**        | cancelation 지원                | 0..1         | 언제든지 호출 가능        | (아이템 존재 시 onNext 호출 후 바로)        | onNext 호출 후 바로, 혹은 단독 호출         | 언제든지 호출 가능       |
+| **Completable**  | cancelation 지원                | 0            | 언제든지 호출 가능        | 해당 없음                                | 언제든지 호출 가능                        | 언제든지 호출 가능       |
+
+
+### Mutiny
+- Hibernate reactive에서 비동기 라이브러리로 제공
+- Multi, Uni publisher 제공
+- Multi
+  - 0..n개의 item을 전달
+  - 에러가 발생하면 error signal 전달하고 종료
+  - 모든 item을 전달했다면 complete signal 전달하고 종료
+  - backPressure 지원
+  - Reactor의 flux와 유사
+- Uni
+  - 0..1개의 item을 전달
+  - 에러가 발생하면 error signal 전달하고 종료
+  - 모든 item을 전달했다면 complete signal 전달하고 종료
+  - Reactor의 Mono와 유사
